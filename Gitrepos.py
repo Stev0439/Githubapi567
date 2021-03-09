@@ -12,9 +12,14 @@ def gitrepo(userID):
         request = requests.get("https://api.github.com/users/{}/repos".format(userID))
         repos = request.json()
         for repo in repos:
-            repoRequest = requests.get("https://api.github.com/repos/{}/{}/commits".format(userID, repo['name']))
+            name = repo['name']
+            repoRequest = requests.get("https://api.github.com/repos/{}/{}/commits".format(userID, name))
             commits = repoRequest.json()
-            repocommits.append("Repo: {} Number of commits: {}".format(repo['name']), len(commits))
+            count = 0
+            for obj in commits:
+                if obj["commit"]:
+                     count += 1
+            repocommits.append("Repo: {} Number of commits: {}".format(name), count)
         return repocommits
 if __name__ == '__main__':
     userID = input("Enter Github user ID:")
