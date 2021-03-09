@@ -8,7 +8,6 @@ import requests
 import json
 
 def gitrepo(userID):
-    try:
         repocommits = []
         request = requests.get("https://api.github.com/users/{}/repos".format(userID))
         repos = json.loads(request.text)
@@ -19,11 +18,12 @@ def gitrepo(userID):
             print(len(commits))
             repos.append("Repo: {} Number of commits: {}".format(repo["name"]), len(commits))
         return repocommits
-    except:
-        return []
 if __name__ == '__main__':
     userID = input("Enter Github user ID:")
-    repos = gitrepo(userID)
+    try:
+        repos = gitrepo(userID)
+    except:
+        repos = []
     if repos == [] :
         print("not a valid user ID")
     for repo in repos:
