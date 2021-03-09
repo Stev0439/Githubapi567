@@ -17,8 +17,11 @@ def gitrepo(userID):
             commits = repoRequest.json()
             count = 0
             for obj in commits:
-                if obj["commit"]:
-                     count += 1
+                try:
+                    if obj["commit"]:
+                         count += 1
+                except:
+                        pass
             repocommits.append("Repo: {} Number of commits: {}".format(name), count)
         return repocommits
 if __name__ == '__main__':
