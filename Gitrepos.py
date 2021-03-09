@@ -11,6 +11,7 @@ def gitrepo(userID):
         repocommits = []
         request = requests.get("https://api.github.com/users/{}/repos".format(userID))
         repos = json.loads(request.text)
+        repos[0]["name"]
         for repo in repos:
             repoRequest = requests.get("https://api.github.com/repos/{}/{}/commits".format(userID, repo["name"]))
             commits = json.loads(repoRequest.text)
