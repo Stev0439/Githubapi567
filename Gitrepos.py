@@ -1,6 +1,5 @@
 '''
 Created on Mar 8, 2021
-
 @author: Steven Santiago
 '''
 
@@ -8,7 +7,7 @@ import requests
 import json
 
 def gitrepo(userID):
-        repocommits = []
+        repocommits = {}
         request = requests.get("https://api.github.com/users/{}/repos".format(userID))
         repos = request.json()
         for repo in repos:
@@ -18,12 +17,11 @@ def gitrepo(userID):
                 commits = repoRequest.json()
                 count = 0
                 for obj in commits:
-                    try:
-                        if obj["commit"]:
-                                count += 1
-                    except:
-                        pass
-                repocommits.append("Repo: {} Number of commits: {}".format(name), count)
+
+                    if obj["commit"]:
+                        count += 1
+                    
+                repocommits[name] = count
             except:
                 pass
         return repocommits
@@ -32,11 +30,10 @@ if __name__ == '__main__':
     try:
         repos = gitrepo(userID)
     except:
-        repos = []
-    if repos == [] :
+        repos = {}
+    if repo == []:
         print("not a valid user ID")
-    for repo in repos:
-        print(repo)
-    
-    
+    for key, value in repos.items():
+	      print("Repo: {} Number of commits: {}".format(key,value))
+
     
